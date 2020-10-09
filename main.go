@@ -243,6 +243,10 @@ func connect(user, password, host string, port int) (*ssh.Session, error) {
 
 		// 需要验证服务端，不做验证返回 nil 就可以，点击 HostKeyCallback 看源码就知道了
 		HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
+			if hostname != "" {
+				// 如果实际使用，可以自己写规则，也可以不校验
+				return errors.New("主机错误")
+			}
 			return nil
 		},
 	})
